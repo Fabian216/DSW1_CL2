@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ProyDSW1_T2_ALAN_OLAYA_EDGAR_FABIAN.Models.Carrito>
+
+@{
+    ViewData["Title"] = "VerCarrito";
+}
+
+<h1>Carrito de compras</h1>
+
+<p>
+    <a asp-action="IndexArticulos"
+       class="btn btn-warning">Seguir Comprando</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Imagen
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreArticulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@Url.Content("/articulos/" + item.Codigo + ".jpg")"
+                         alt="@item.NombreArticulo"
+                         style="width:80px;height:80px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreArticulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importe)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Actualizar", "AgregarAlCarrito",
+                             new { id = item.Codigo },
+                             new { @class = "btn btn-success" }) |
+                    <a href="javascript:void(0);" onclick="return confirmDelete('@Url.Action("EliminarArticuloCarrito", "Articulos", new { id = item.Codigo })');" class="btn btn-danger">Eliminar</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (ViewBag.total != null)
+{
+    <div class="alert alert-info">
+        <h4>Total a Pagar: <strong>@ViewBag.total</strong></h4>
+    </div>
+}
+
+<script>
+    // Función de confirmación de eliminación
+    function confirmDelete(url) {
+        // Mostrar ventana de confirmación
+        if (confirm("¿Estás seguro de que quieres eliminar este artículo del carrito?")) {
+            window.location.href = url; // Redirigir al URL de eliminación si es confirmado
+        }
+        return false; // Evitar que se siga el enlace de forma predeterminada
+    }
+</script>

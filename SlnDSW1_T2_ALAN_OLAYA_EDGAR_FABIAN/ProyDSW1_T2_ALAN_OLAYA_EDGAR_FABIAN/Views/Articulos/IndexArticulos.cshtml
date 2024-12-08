@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProyDSW1_T2_ALAN_OLAYA_EDGAR_FABIAN.Models.Articulos>
+
+@{
+    ViewData["Title"] = "IndexArticulos";
+}
+
+<h1>Tienda virtual de productos electronicos</h1>
+
+
+<!-- Formulario para filtrar -->
+<form asp-action="IndexArticulos" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="filtro" value="@ViewBag.FiltroActual" class="form-control" placeholder="Buscar por nombre">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+<div class="container">
+    <div class="row">
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center">
+                <p>No se encontraron artículos con el filtro aplicado.</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <!-- Imagen del artículo -->
+                        <img src="@Url.Content("/articulos/" + item.cod_art + ".jpg")"
+                             class="card-img-top"
+                             alt="@item.nom_art"
+                             style="height:200px; object-fit:cover;">
+
+                        <!-- Detalles del artículo -->
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@item.nom_art</h5>
+                            <p class="card-text">
+                                <strong>Precio:</strong> @item.pre_art <br />
+                                <strong>Código:</strong> @item.cod_art <br />
+                                <strong>Stock:</strong> @item.stk_art
+                            </p>
+                        </div>
+
+                        <!-- Botón de acción (Solo si el stock es mayor a 0) -->
+                        @if (item.stk_art > 0)
+                        {
+                            <div class="card-footer text-center">
+                                @Html.ActionLink("Seleccionar", "AgregarAlCarrito", new { id = item.cod_art }, new { @class = "btn btn-primary" })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card-footer text-center">
+                                <button class="btn btn-secondary" disabled>Sin stock</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

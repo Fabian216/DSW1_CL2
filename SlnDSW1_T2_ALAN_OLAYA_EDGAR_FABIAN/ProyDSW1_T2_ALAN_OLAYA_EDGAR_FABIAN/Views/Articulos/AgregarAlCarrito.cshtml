@@ -1,0 +1,75 @@
+﻿@model ProyDSW1_T2_ALAN_OLAYA_EDGAR_FABIAN.Models.Articulos
+
+@{
+    ViewData["Title"] = "AgregarAlCarrito";
+}
+
+<h1>Resumen del producto</h1>
+<h2>¡Cómpralo!</h2>
+
+<div>
+    <h4>Articulos</h4>
+    <hr />
+
+    <div class="d-flex align-items-center">
+        <div class="me-3" style="max-width: 50%;">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.nom_art)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.nom_art)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.pre_art)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.pre_art)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.cod_art)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.cod_art)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.stk_art)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.stk_art)
+                </dd>
+            </dl>
+        </div>
+
+        <div>
+            <img src="@Url.Content("/articulos/" + Model.cod_art + ".jpg")"
+                 alt="@Model.nom_art"
+                 style="width:180px;height:180px; object-fit:cover;" />
+        </div>
+    </div>
+
+    <form asp-action="AgregarAlCarrito" id="agregarForm" method="post">
+        <div>
+            Cantidad a Comprar: @Html.TextBox("cantidad", 1)
+            <input type="submit" value="Agregar"
+                   id="btnAgregar" class="btn btn-primary"
+            @if (TempData["ArticuloAgregado"] != null && (bool)TempData["ArticuloAgregado"])
+            {
+                <text>disabled="disabled" value="Agregado"</text>
+            } /> |
+            <a asp-action="IndexArticulos"
+               class="btn btn-warning">Seguir Comprando</a> |
+            <a asp-action="VerCarrito"
+               class="btn btn-success">Ver Carrito</a>
+        </div>
+    </form>
+
+</div>
+
+@if (ViewBag.mensaje != null)
+{
+    <div class="alert alert-info">
+        <h4><strong>@ViewBag.mensaje</strong></h4>
+    </div>
+}
+
